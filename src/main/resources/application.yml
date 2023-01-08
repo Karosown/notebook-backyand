@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: notebook-backyand
+  # DataSource Config
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/notebook_db?characterEncoding=utf8
+    username: root
+    password: wzl20030211
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  jackson:
+      #  格式化返回时间 yyyy-MM-dd HH:mm:ss
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  # session 失效时间（分钟）
+  session:
+    timeout: 86400
+    store-type: redis
+  # redis 配置
+  redis:
+    port: 6379
+    host: localhost
+    database: 0
+  mail:
+    default-encoding: UTF-8
+    host: smtp.exmail.qq.com
+    username: mail@wzl1.top
+    password: Di9s5ouGB6REzk6i
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
+          ssl:
+            enable: true
+          starttls:
+            enable: true
+            required: true
+    test-connection: true
+server:
+  port: 7529
+  servlet:
+    context-path: /api
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+katool:
+  qiniu:
+    accessKey: QZVhj0O3G2ptwrUXRqqnH71IDS-GYJW82rWAN_8P
+    secretKey: mfXhBU-xWl4pPUeaFMcVZQ0aiTSMyeA3MVaHhdnW
+    # 对象储存
+    bucket: karos-0 # 空间名称
+    zone: xinjiapo # 存储区域
+    domain: 7n.cdn.wzl1.top # 访问域名
+    basedir: /notebook
+final:
+  EXP_TIME: 600000  #过期时间
+  MAX_FERQUENCY: 1000     #同IP最大上传次数

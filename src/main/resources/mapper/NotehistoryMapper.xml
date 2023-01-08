@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.generator.mapper.NotehistoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.karos.project.model.entity.Notehistory">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="noteUrl" column="noteUrl" jdbcType="VARCHAR"/>
+            <result property="ip" column="ip" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,noteUrl,ip,
+        version,updateTime,isDelete
+    </sql>
+</mapper>

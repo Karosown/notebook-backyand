@@ -1,0 +1,42 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+/src/main/java/com/karos/project/model/entity/Post.java
+/src/main/java/com/karos/project/model/dto/post/
+/src/main/java/com/karos/project/model/enums/PostGenderEnum.java
+/src/main/java/com/karos/project/model/enums/PostReviewStatusEnum.java
+/src/main/java/com/karos/project/model/vo/PostVO.java
+/src/main/java/com/karos/project/controller/PostController.java
+/src/main/java/com/karos/project/mapper/PostMapper.java
+/src/main/java/com/karos/project/service/PostService.java
+/src/main/java/com/karos/project/service/impl/PostServiceImpl.java

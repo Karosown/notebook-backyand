@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "KaTool.qiniu.dir",
+      "type": "java.lang.String",
+      "description": "Description for KaTool.qiniu.dir."
+  }
+] }
