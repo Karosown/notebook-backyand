@@ -3,7 +3,7 @@
  *
  * @ClassName: CheckCode
  * @Description:
- * @author: 巫宗霖
+ * @author: Karos
  * @date: 2022/12/16 17:59
  * @Blog: https://www.wzl1.top/
  */

@@ -3,7 +3,7 @@
  *
  * @ClassName: UserUpdatePasswordRequest
  * @Description:
- * @author: 巫宗霖
+ * @author: Karos
  * @date: 2022/12/22 15:19
  * @Blog: https://www.wzl1.top/
  */

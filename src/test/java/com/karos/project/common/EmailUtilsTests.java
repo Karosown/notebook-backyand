@@ -3,7 +3,7 @@
  *
  * @ClassName: EmailUtilsTests
  * @Description:
- * @author: 巫宗霖
+ * @author: Karos
  * @date: 2022/12/14 21:52
  * @Blog: https://www.wzl1.top/
  */
