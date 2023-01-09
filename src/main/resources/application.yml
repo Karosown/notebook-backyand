@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/notebook_db?characterEncoding=utf8
     username: root
-    password: wzl20030211
+    password: #自行配置
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
