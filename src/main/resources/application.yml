@@ -26,10 +26,10 @@ spring:
     database: 0
   mail:
     default-encoding: UTF-8
-    host: smtp.exmail.qq.com
-    username: mail@wzl1.top
-    password: Di9s5ouGB6REzk6i
-    port: 465
+    host: #自行配置
+    username: #自行配置
+    password: #自行配置
+    port: #自行配置
     properties:
       mail:
         smtp:
@@ -58,12 +58,12 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 katool:
   qiniu:
-    accessKey: QZVhj0O3G2ptwrUXRqqnH71IDS-GYJW82rWAN_8P
-    secretKey: mfXhBU-xWl4pPUeaFMcVZQ0aiTSMyeA3MVaHhdnW
+    accessKey: #自行配置
+    secretKey: #自行配置
     # 对象储存
-    bucket: karos-0 # 空间名称
-    zone: xinjiapo # 存储区域
-    domain: 7n.cdn.wzl1.top # 访问域名
+    bucket: # 空间名称 自行配置
+    zone: # 存储区域 自行配置
+    domain: # 访问域名 自行配置
     basedir: /notebook
 final:
   EXP_TIME: 600000  #过期时间
