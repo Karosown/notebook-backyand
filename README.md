@@ -16,9 +16,15 @@
 
 前端：Vue2、ElementUI、Jqurey、Bootstrap5、Axios、Wangeditor富文本框架、Prismjis代码高亮插件
 
+### 开发环境
+
+IDEA 2022.3.1<br>
+WebStorm 2022.2.1<br>
+MySQl8<br>
+
 ### 项目地址：
 
-[Welcome to 掌印日记 (wzl1.top)](http://notebook.wzl1.top/LogReg)
+[Welcome to 掌印日记 (wzl1.top)](http://notebook.wzl1.top/Log)
 
 ### 源码地址：
 
