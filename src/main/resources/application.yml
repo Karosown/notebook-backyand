@@ -1,11 +1,14 @@
 spring:
+  # 使用配置文件   -- 改好下面的配置以后把该配置删掉即可，本用于多环境部署
+  profiles:
+    active: prod
   application:
     name: notebook-backyand
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/notebook_db?characterEncoding=utf8
-    username: root
+    username: #自行配置
     password: #自行配置
   mvc:
     pathmatch:
@@ -26,10 +29,10 @@ spring:
     database: 0
   mail:
     default-encoding: UTF-8
-    host: smtp.exmail.qq.com
-    username: mail@wzl1.top
-    password: Di9s5ouGB6REzk6i
-    port: 465
+    host: # 自行配置
+    username: # 自行配置
+    password: # 自行配置
+    port: # 自行配置
     properties:
       mail:
         smtp:
@@ -58,13 +61,13 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 katool:
   qiniu:
-    accessKey: QZVhj0O3G2ptwrUXRqqnH71IDS-GYJW82rWAN_8P
-    secretKey: mfXhBU-xWl4pPUeaFMcVZQ0aiTSMyeA3MVaHhdnW
-    # 对象储存
-    bucket: karos-0 # 空间名称
-    zone: xinjiapo # 存储区域
-    domain: 7n.cdn.wzl1.top # 访问域名
-    basedir: /notebook
+    # 七牛云对象储存
+    accessKey: #自行配置
+    secretKey: #自行配置
+    bucket: # 空间名称 #自行配置
+    zone: # 存储区域 #自行配置
+    domain: # 访问域名 #自行配置
+    basedir: /notebook #项目根目录 自行配置
 final:
   EXP_TIME: 600000  #过期时间
   MAX_FERQUENCY: 1000     #同IP最大上传次数

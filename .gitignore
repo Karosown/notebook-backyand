@@ -40,3 +40,5 @@ build/
 /src/main/java/com/karos/project/mapper/PostMapper.java
 /src/main/java/com/karos/project/service/PostService.java
 /src/main/java/com/karos/project/service/impl/PostServiceImpl.java
+/src/main/resources/application-prod.yml
+
