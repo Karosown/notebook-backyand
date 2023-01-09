@@ -87,7 +87,15 @@ public class NoteController {
         if (result==null){
             throw new BusinessException(ErrorCode.OPERATION_ERROR);
         }
-        return ResultUtils.success(result);
+        return ResultUtils.success(result,()->{
+            if (BooleanUtil.isTrue(result)) {
+                return "已放入收藏夹";
+            }
+            if (BooleanUtil.isFalse(result)){
+                return "已取消收藏";
+            }
+            return "收藏夹服务错误";
+        });
     }
     /**
      * 创建
@@ -271,6 +279,49 @@ public class NoteController {
         return ResultUtils.success(noteList);
     }
 
+    @AuthCheck
+    @GetMapping("/list/myfavorite")
+    public BaseResponse<Page<NoteVo>> listNoteByFavorite(HttpServletRequest request){
+        User loginUser = userService.getLoginUser(request);
+
+        Long id = loginUser.getId();
+        String userName = loginUser.getUserName();
+        String userAccount = loginUser.getUserAccount();
+        String userAvatar = loginUser.getUserAvatar();
+        Integer gender = loginUser.getGender();
+        String userRole = loginUser.getUserRole();
+        String userPassword = loginUser.getUserPassword();
+        Date createTime = loginUser.getCreateTime();
+        Date updateTime = loginUser.getUpdateTime();
+        String userMail = loginUser.getUserMail();
+        Integer isDelete = loginUser.getIsDelete();
+
+        HashOperations hashOperations = redisTemplate.opsForHash();
+        List<Notethumbrecords> list = (List) hashOperations.get(RedisKeysConstant.ThumbsHistoryHash, id.toString());
+        Page<Notethumbrecords> notethumbrecordsPage=new Page<>(0,list.size());
+        notethumbrecordsPage.setRecords(list);
+        Page<NoteVo> voList= (Page<NoteVo>) notethumbrecordsPage.convert(u->{
+            NoteVo v=new NoteVo();
+            Note a=noteService.getById(u.getNoteId());
+            BeanUtils.copyProperties(a,v);
+            Boolean thumb=false;
+            if (ObjectUtil.isNotEmpty(list)){
+                Iterator<Notethumbrecords> iterator = list.iterator();
+                while(iterator.hasNext()){
+                    Notethumbrecords next = iterator.next();
+                    if (next.getNoteId().equals(v.getId())){
+                        thumb=true;
+                        break;
+                    }
+                }
+            }
+            v.setHasThumb(thumb);
+            if (hashOperations.hasKey(RedisKeysConstant.ThumbsNum,v.getId()))
+                v.setThumbNum(Long.valueOf((Integer)hashOperations.get(RedisKeysConstant.ThumbsNum,v.getId())));
+            return v;
+        });
+        return ResultUtils.success(voList);
+    }
     /**
      * 分页获取列表
      *

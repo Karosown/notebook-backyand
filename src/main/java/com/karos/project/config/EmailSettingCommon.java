@@ -23,11 +23,12 @@ package com.karos.project.config;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
 //所有变量不能设置为静态变量
-@Component
+@Configuration
 @ToString
 public class EmailSettingCommon {
     @Value("${spring.mail.username}")
