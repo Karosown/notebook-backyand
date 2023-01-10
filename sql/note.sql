@@ -1,4 +1,4 @@
-create table notebook_db.note
+create table note
 (
     id         varchar(256)                       not null comment 'id'
         primary key,
@@ -16,7 +16,7 @@ create table notebook_db.note
 )
     comment '日记表';
 
-create table notebook_db.notehistory
+create table notehistory
 (
     id         varchar(256)                       not null comment '日记id',
     noteUrl    varchar(256)                       not null comment '日记地址',
@@ -27,7 +27,7 @@ create table notebook_db.notehistory
 )
     comment '笔记历史';
 
-create table notebook_db.notethumbrecords
+create table notethumbrecords
 (
     id        int auto_increment
         primary key,
@@ -39,7 +39,7 @@ create table notebook_db.notethumbrecords
 )
     comment '笔记点赞记录表';
 
-create table notebook_db.user
+create table user
 (
     id           bigint auto_increment comment 'id'
         primary key,
