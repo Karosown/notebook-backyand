@@ -136,6 +136,7 @@ public class NoteController {
         // 校验
         note.setCreateTime(new Date());
         note.setNoteUrl(noteUrl);
+        note.setNoteIntroduction(noteService.getIntroduction(noteAddRequest));
         String newNoteId=null;
         synchronized (note.getNoteUrl().intern()) {
             noteService.validNote(note, true);
@@ -232,6 +233,7 @@ public class NoteController {
         }
 //        todo
         note.setNoteUrl(noteUrl);
+        note.setNoteIntroduction(noteService.getIntroduction(noteUpdateRequest));
         Notehistory notehistory = new Notehistory();
         notehistory.setId(note.getId());
         notehistory.setNoteUrl(noteUrl);

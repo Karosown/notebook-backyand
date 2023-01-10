@@ -37,7 +37,10 @@ public class NoteVo implements Serializable {
      * 日记地址
      */
     private String noteUrl;
-
+    /**
+     * 日记简介
+     */
+    private String noteIntroduction;
     /**
      * 是否公开（0为否，1为公开）
      */
