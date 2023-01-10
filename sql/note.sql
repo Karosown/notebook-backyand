@@ -10,7 +10,7 @@ create table notebook_db.note
     viewNum    bigint   default 0                 not null comment '浏览量',
     IP         varchar(256)                       not null comment 'IP地址',
     thumbNum   bigint   default 0                 not null comment '点赞量',
-    createTime datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '注册时间',
+    createTime datetime default CURRENT_TIMESTAMP not null comment '注册时间',
     updateTime datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete   tinyint  default 0                 not null comment '是否删除（0否，1是）'
 )
