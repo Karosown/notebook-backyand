@@ -16,15 +16,9 @@
 
 前端：Vue2、ElementUI、Jqurey、Bootstrap5、Axios、Wangeditor富文本框架、Prismjis代码高亮插件
 
-### 开发环境
-
-IDEA 2022.3.1<br>
-WebStorm 2022.2.1<br>
-MySQl8<br>
-
 ### 项目地址：
 
-[Welcome to 掌印日记 (wzl1.top)](http://notebook.wzl1.top/Log)
+[Welcome to 掌印日记 (wzl1.top)](http://notebook.wzl1.top/LogReg)
 
 ### 源码地址：
 
@@ -50,7 +44,7 @@ NoteBook-Frontyand: <a href="http://www.github.com/KarosownNoteBook-Frontyand">h
 
 弹幕
 
-### 界面截图：
+## 界面截图：
 
 **登录界面**
 
@@ -95,3 +89,22 @@ NoteBook-Frontyand: <a href="http://www.github.com/KarosownNoteBook-Frontyand">h
 **我的收藏**
 
 ![image-20230109215916706](http://7n.cdn.wzl1.top/typora/img/image-20230109215916706.png)
+
+### 多端自适应
+
+#### 电脑
+
+上方截图均为电脑截图
+
+#### 手机
+
+![image-20230111003458208](http://7n.cdn.wzl1.top/typora/img/image-20230111003458208.png)
+
+![image-20230111003313896](http://7n.cdn.wzl1.top/typora/img/image-20230111003313896.png)
+
+#### 平板
+
+![image-20230111003336841](http://7n.cdn.wzl1.top/typora/img/image-20230111003336841.png)
+
+![image-20230111003352597](http://7n.cdn.wzl1.top/typora/img/image-20230111003352597.png)
+
