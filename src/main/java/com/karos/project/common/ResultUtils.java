@@ -1,6 +1,6 @@
 package com.karos.project.common;
 
-import com.karos.KaTool.other.MethondIntefaceUtil;
+import com.karos.KaTool.other.MethodIntefaceUtil;
 
 /**
  * 返回工具类
@@ -22,8 +22,8 @@ public class ResultUtils {
     public static <T> BaseResponse<T> success(T data,String message) {
         return new BaseResponse<>(0, data, message);
     }
-    public static <T> BaseResponse<T> success(T data, MethondIntefaceUtil methondIntefaceUtil) {
-        return new BaseResponse<>(0, data, (String) methondIntefaceUtil.method());
+    public static <T> BaseResponse<T> success(T data, MethodIntefaceUtil MethodIntefaceUtil) {
+        return new BaseResponse<>(0, data, (String) MethodIntefaceUtil.method());
     }
     /**
      * 失败

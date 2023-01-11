@@ -12,7 +12,7 @@ package com.karos.project.tasks;
 
 import cn.hutool.core.lang.func.VoidFunc0;
 import com.karos.KaTool.lock.LockUtil;
-import com.karos.KaTool.other.MethondIntefaceUtil;
+import com.karos.KaTool.other.MethodIntefaceUtil;
 import com.karos.project.constant.LockConstant;
 import com.karos.project.constant.RedisKeysConstant;
 import com.karos.project.model.entity.Note;

@@ -242,6 +242,7 @@ public class NoteController {
         queryWrapper.eq("id",note.getId());
         notehistory.setVersion(notehistoryService.count(queryWrapper)+1);
         notehistoryService.validNote(notehistory,true);
+        note.setUserId(null);
         boolean result = noteService.updateById(note)&&notehistoryService.save(notehistory);
         return ResultUtils.success(result);
     }
