@@ -33,8 +33,8 @@ public interface NoteService extends IService<Note> {
         data=data.replaceAll(RegexValid.htmlRegex,"");
         data=data.replaceAll(RegexValid.spaceRegex,"");
 
-        if (data.length()>50){
-            data=data.substring(0,50);
+        if (data.length()>200){
+            data=data.substring(0,200);
         }
         return data+"...";
     }

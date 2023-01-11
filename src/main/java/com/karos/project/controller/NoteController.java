@@ -42,6 +42,7 @@ import com.karos.project.service.NoteService;
 import com.karos.project.service.NotehistoryService;
 import com.karos.project.service.NotethumbrecordsService;
 import com.karos.project.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.HashOperations;
@@ -56,6 +57,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/note")
+@Slf4j
 public class NoteController {
     @Resource
     NoteService noteService;
@@ -244,6 +246,7 @@ public class NoteController {
         notehistoryService.validNote(notehistory,true);
         note.setUserId(null);
         boolean result = noteService.updateById(note)&&notehistoryService.save(notehistory);
+        log.info("用户{} 身份{} 修改帖子ID{}-{}",user.getUserAccount(),user.getUserRole(),note.getId(),note.getNoteTitle());
         return ResultUtils.success(result);
     }
 
