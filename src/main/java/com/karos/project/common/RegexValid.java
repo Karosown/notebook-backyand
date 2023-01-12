@@ -8,5 +8,5 @@ public interface RegexValid {
     //定义HTML标签的正则表达式，去除标签，只提取文字内容
     String htmlRegex="<[^>]+>";
     //定义空格,回车,换行符,制表符
-    String spaceRegex = "\\s*|\t|\r|\n|&nbsp;|&emsp;|&ensp;|&thinsp;|&zwnj;|&zwj;";
+    String spaceRegex = "\t|\r|\n|&nbsp;|&emsp;|&ensp;|&thinsp;|&zwnj;|&zwj;";
 }
