@@ -31,7 +31,7 @@ public interface NoteService extends IService<Note> {
         data=data.replaceAll(RegexValid.scriptRegex, "");
         data=data.replaceAll(RegexValid.styleRegex,"");
         data=data.replaceAll(RegexValid.htmlRegex,"");
-        data=data.replaceAll(RegexValid.spaceRegex,"");
+        data=data.replaceAll(RegexValid.spaceRegex," ");
 
         if (data.length()>200){
             data=data.substring(0,200);
