@@ -304,28 +304,37 @@ public class NoteController {
 
         HashOperations hashOperations = redisTemplate.opsForHash();
         List<Notethumbrecords> list = (List) hashOperations.get(RedisKeysConstant.ThumbsHistoryHash, id.toString());
+        //如果缓存中有，那么从缓存里面取
+        if (list==null||list.size()<=0){
+            QueryWrapper<Notethumbrecords> queryWrapper=new QueryWrapper<>();
+            queryWrapper.eq("userId",id);
+            list=notethumbrecordsService.list(queryWrapper);
+            //把list存到redis
+            hashOperations.put(RedisKeysConstant.ThumbsHistoryHash,id.toString(),list);
+        }
         Page<Notethumbrecords> notethumbrecordsPage=new Page<>(0,list.size());
         notethumbrecordsPage.setRecords(list);
-        Page<NoteVo> voList= (Page<NoteVo>) notethumbrecordsPage.convert(u->{
-            NoteVo v=new NoteVo();
-            Note a=noteService.getById(u.getNoteId());
-            BeanUtils.copyProperties(a,v);
-            Boolean thumb=false;
-            if (ObjectUtil.isNotEmpty(list)){
-                Iterator<Notethumbrecords> iterator = list.iterator();
-                while(iterator.hasNext()){
-                    Notethumbrecords next = iterator.next();
-                    if (next.getNoteId().equals(v.getId())){
-                        thumb=true;
-                        break;
+        List<Notethumbrecords> finalList = list;
+        Page<NoteVo> voList=(Page<NoteVo>) notethumbrecordsPage.convert(u->{
+                NoteVo v=new NoteVo();
+                Note a=noteService.getById(u.getNoteId());
+                BeanUtils.copyProperties(a,v);
+                Boolean thumb=false;
+                if (ObjectUtil.isNotEmpty(finalList)){
+                    Iterator<Notethumbrecords> iterator = finalList.iterator();
+                    while(iterator.hasNext()){
+                        Notethumbrecords next = iterator.next();
+                        if (next.getNoteId().equals(v.getId())){
+                            thumb=true;
+                            break;
+                        }
                     }
                 }
-            }
-            v.setHasThumb(thumb);
-            if (hashOperations.hasKey(RedisKeysConstant.ThumbsNum,v.getId()))
-                v.setThumbNum(Long.valueOf((Integer)hashOperations.get(RedisKeysConstant.ThumbsNum,v.getId())));
-            return v;
-        });
+                v.setHasThumb(thumb);
+                if (hashOperations.hasKey(RedisKeysConstant.ThumbsNum,v.getId()))
+                    v.setThumbNum(Long.valueOf((Integer)hashOperations.get(RedisKeysConstant.ThumbsNum,v.getId())));
+                return v;
+            });
         return ResultUtils.success(voList);
     }
     /**

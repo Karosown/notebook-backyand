@@ -1,6 +1,7 @@
 package com.karos.project;
 
 import cn.hutool.core.codec.Base64;
+import com.karos.project.common.InitRedis;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

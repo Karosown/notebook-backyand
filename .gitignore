@@ -42,3 +42,4 @@ build/
 /src/main/java/com/karos/project/service/impl/PostServiceImpl.java
 /src/main/resources/application-prod.yml
 
+/src/main/resources/application-test.yml

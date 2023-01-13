@@ -29,6 +29,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -106,6 +107,10 @@ public class NoteScheduledTasks extends ScheduledTasks{
               }
               CompletableFuture.allOf(futrueList.toArray(new CompletableFuture[]{})).join();
 //                notethumbrecordsService.saveOrUpdateBatch(thumblist,10000);
+        ArrayList<Note> list = (ArrayList<Note>) noteService.list();
+        for (Note k:list){
+            hashOperations.put(RedisKeysConstant.ThumbsNum,k.getId(),k.getThumbNum());
+        }
         //释放锁
         lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers.intern());
     }
