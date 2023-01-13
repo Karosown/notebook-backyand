@@ -13,7 +13,8 @@
     <artifactId>notebook-backyand</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>notebook-backyand</name>
-    <description>springboot 初始项目</description>
+    <description>在后疫情时代，大部分群体的生活压力以及财产压力有明显的增大，并且疫情仍在继续，疫情使部分群体产生抑郁情绪，为此，我制作了这个给大家用于日常生活分享的平台
+    </description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
