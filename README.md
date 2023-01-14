@@ -32,18 +32,6 @@ NoteBook-Frontyand: <a href="http://www.github.com/KarosownNoteBook-Frontyand">h
 
 日记发布、日记收藏、日记修改、用户资料查看与修改等
 
-### 待实现：
-
-日记定时推送
-
-日记版本回滚
-
-树洞
-
-漂流瓶
-
-弹幕
-
 ## 界面截图：
 
 **登录界面**
@@ -108,3 +96,14 @@ NoteBook-Frontyand: <a href="http://www.github.com/KarosownNoteBook-Frontyand">h
 
 ![image-20230111003352597](http://7n.cdn.wzl1.top/typora/img/image-20230111003352597.png)
 
+## 功能实现：
+
+- [x] 用户登录、注册、信息修改
+- [x] 日记发布、搜索
+- [x] 日记更新与删除
+- [x] 日记收藏
+- [x] 热点日记定时推送
+- [x] 日记版本回滚
+- [ ] 树洞
+- [ ] 漂流瓶
+- [ ] 弹幕

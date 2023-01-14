@@ -489,7 +489,8 @@ public class NoteController {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         QueryWrapper<Notehistory> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+        queryWrapper.eq("id",id)
+                .orderByDesc("updateTime");
         List<Notehistory> list = notehistoryService.list(queryWrapper);
         Page<Notehistory> notehistoryPage=new Page<>();
         notehistoryPage.setRecords(list);
