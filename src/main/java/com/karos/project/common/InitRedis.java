@@ -10,8 +10,11 @@
 
 package com.karos.project.common;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.karos.project.constant.RedisKeysConstant;
 import com.karos.project.model.entity.Note;
+import com.karos.project.model.entity.Notethumbrecords;
 import com.karos.project.service.NoteService;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,7 +22,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Component
 public class InitRedis{
@@ -38,5 +44,15 @@ public class InitRedis{
                for (Note k:list){
                    hashOperations.put(RedisKeysConstant.ThumbsNum,k.getId(),k.getThumbNum());
                }
+            }
+            public void gethot(){
+                Set keys = redisTemplate.opsForHash().keys(RedisKeysConstant.ThumbsNum);
+                QueryWrapper<Note> queryWrapper=new QueryWrapper<>();
+                queryWrapper.in("id",keys)
+                        .orderBy(true, false,"thumbNum");
+                List<Note> list = noteService.list(queryWrapper);
+                Page<Note> notePage=new Page<>();
+                notePage.setRecords(list);
+                redisTemplate.opsForValue().set(RedisKeysConstant.HotNote,notePage);
             }
 }

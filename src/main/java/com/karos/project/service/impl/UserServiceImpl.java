@@ -223,6 +223,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return currentUser;
     }
 
+    @Override
+    public boolean isLogin(HttpServletRequest request) {
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        return ObjectUtils.isNotEmpty(userObj);
+    }
+
     /**
      * 是否为管理员
      *l

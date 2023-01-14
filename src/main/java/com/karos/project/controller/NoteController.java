@@ -22,10 +22,7 @@ import com.karos.KaTool.iputils.IpUtils;
 import com.karos.KaTool.lock.LockUtil;
 import com.karos.KaTool.qiniu.impl.QiniuServiceImpl;
 import com.karos.project.annotation.AuthCheck;
-import com.karos.project.common.BaseResponse;
-import com.karos.project.common.DeleteRequest;
-import com.karos.project.common.ErrorCode;
-import com.karos.project.common.ResultUtils;
+import com.karos.project.common.*;
 import com.karos.project.constant.CommonConstant;
 import com.karos.project.constant.RedisKeysConstant;
 import com.karos.project.exception.BusinessException;
@@ -42,6 +39,7 @@ import com.karos.project.service.NoteService;
 import com.karos.project.service.NotehistoryService;
 import com.karos.project.service.NotethumbrecordsService;
 import com.karos.project.service.UserService;
+import com.karos.project.tasks.NoteScheduledTasks;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -73,13 +71,15 @@ public class NoteController {
     private NotethumbrecordsService notethumbrecordsService;
     @Resource
     LockUtil lockUtil;
-
+    @Resource
+    InitRedis initRedis;
     @AuthCheck(mustRole = "admin")
     @GetMapping("/LockTest")
     public BaseResponse<String> test(@RequestParam("expTime") Long expTime){
         lockUtil.DistributedLock(RedisKeysConstant.ThumbsHistoryHash.intern(),expTime, TimeUnit.SECONDS);
         return ResultUtils.success("上锁成功，请在20s内进行测试操作");
     }
+    @AuthCheck
     @PostMapping("/thumb")
     public BaseResponse<Boolean> thumbNote(@RequestBody NoteDoThumbRequest noteDoThumbRequest, HttpServletRequest request){
         Notethumbrecords notethumbrecords = new Notethumbrecords();
@@ -337,6 +337,71 @@ public class NoteController {
             });
         return ResultUtils.success(voList);
     }
+    @GetMapping("/list/hot")
+        public BaseResponse<Page<NoteVo>> listNoteByHot(HttpServletRequest request){
+        Page<Note> notePage= (Page<Note>) redisTemplate.opsForValue().get(RedisKeysConstant.HotNote);
+        Page<NoteVo> voList=null;
+        if (notePage==null||ObjectUtil.isEmpty(notePage)){
+            initRedis.gethot();
+            notePage= (Page<Note>) redisTemplate.opsForValue().get(RedisKeysConstant.HotNote);
+        }
+        if (ObjectUtil.isEmpty(notePage)){
+            return ResultUtils.success(voList);
+        }
+        User loginUser=null;
+        if (userService.isLogin(request)){
+            loginUser= userService.getLoginUser(request);
+        }
+        HashOperations hashOperations = redisTemplate.opsForHash();
+        if (ObjectUtil.isNotEmpty(loginUser)){
+            Long id = loginUser.getId();
+            List<Notethumbrecords> list = (List) hashOperations.get(RedisKeysConstant.ThumbsHistoryHash, id.toString());
+            //如果缓存中有，那么从缓存里面取
+            if (list==null||list.size()<=0){
+                QueryWrapper<Notethumbrecords> queryWrapper=new QueryWrapper<>();
+                queryWrapper.eq("userId",id);
+                list=notethumbrecordsService.list(queryWrapper);
+                //把list存到redis
+                hashOperations.put(RedisKeysConstant.ThumbsHistoryHash,id.toString(),list);
+            }
+            Page<Notethumbrecords> notethumbrecordsPage=new Page<>(0,list.size());
+            notethumbrecordsPage.setRecords(list);
+            List<Notethumbrecords> finalList = list;
+            voList=(Page<NoteVo>) notePage.convert(u->{
+                NoteVo v=new NoteVo();
+                Note a=noteService.getById(u.getId());
+                BeanUtils.copyProperties(a,v);
+                Boolean thumb=false;
+                if (ObjectUtil.isNotEmpty(finalList)){
+                    Iterator<Notethumbrecords> iterator = finalList.iterator();
+                    while(iterator.hasNext()){
+                        Notethumbrecords next = iterator.next();
+                        if (next.getNoteId().equals(v.getId())){
+                            thumb=true;
+                            break;
+                        }
+                    }
+                }
+                v.setHasThumb(thumb);
+                if (hashOperations.hasKey(RedisKeysConstant.ThumbsNum,v.getId()))
+                    v.setThumbNum(Long.valueOf((Integer)hashOperations.get(RedisKeysConstant.ThumbsNum,v.getId())));
+                return v;
+            });
+        }
+        else{
+            voList=(Page<NoteVo>) notePage.convert(u->{
+                NoteVo v=new NoteVo();
+                Note a=noteService.getById(u.getId());
+                BeanUtils.copyProperties(a,v);
+                v.setHasThumb(false);
+                if (hashOperations.hasKey(RedisKeysConstant.ThumbsNum,v.getId()))
+                    v.setThumbNum(Long.valueOf((Integer)hashOperations.get(RedisKeysConstant.ThumbsNum,v.getId())));
+                return v;
+            });
+        }
+        return ResultUtils.success(voList);
+    }
+
     /**
      * 分页获取列表
      *
