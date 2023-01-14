@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author karos
  */
 public interface UserService extends IService<User> {
+    String getUserAccount(Long id);
     String getUserName(String userAccount,Long id);
     /**
      * 获取用户头像地址

@@ -49,6 +49,8 @@ public class InitRedis{
                 Set keys = redisTemplate.opsForHash().keys(RedisKeysConstant.ThumbsNum);
                 QueryWrapper<Note> queryWrapper=new QueryWrapper<>();
                 queryWrapper.in("id",keys)
+                        //必须要公开
+                        .eq("isPublic",1)
                         .orderBy(true, false,"thumbNum");
                 List<Note> list = noteService.list(queryWrapper);
                 Page<Note> notePage=new Page<>();

@@ -31,6 +31,10 @@ public class NoteHistoryAddRequest implements Serializable {
      * 日记
      */
     private Long version;
+    /**
+     * 修改用户
+     */
+    private Long userId;
 
 
     @TableField(exist = false)

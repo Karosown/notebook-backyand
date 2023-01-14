@@ -30,10 +30,12 @@ import com.karos.project.model.dto.note.NoteAddRequest;
 import com.karos.project.model.dto.note.NoteDoThumbRequest;
 import com.karos.project.model.dto.note.NoteQueryRequest;
 import com.karos.project.model.dto.note.NoteUpdateRequest;
+import com.karos.project.model.dto.notehistory.NoteHistoryQueryRequest;
 import com.karos.project.model.entity.Note;
 import com.karos.project.model.entity.Notehistory;
 import com.karos.project.model.entity.Notethumbrecords;
 import com.karos.project.model.entity.User;
+import com.karos.project.model.vo.NoteHistoryVo;
 import com.karos.project.model.vo.NoteVo;
 import com.karos.project.service.NoteService;
 import com.karos.project.service.NotehistoryService;
@@ -73,6 +75,7 @@ public class NoteController {
     LockUtil lockUtil;
     @Resource
     InitRedis initRedis;
+
     @AuthCheck(mustRole = "admin")
     @GetMapping("/LockTest")
     public BaseResponse<String> test(@RequestParam("expTime") Long expTime){
@@ -154,6 +157,7 @@ public class NoteController {
             notehistory.setId(newNoteId);
             notehistory.setNoteUrl(noteUrl);
             notehistory.setIp(note.getIP());
+            notehistory.setUserId(note.getUserId());
             notehistory.setVersion(1L);
             notehistory.setUpdateTime(new Date());
             notehistoryService.save(notehistory);
@@ -240,6 +244,7 @@ public class NoteController {
         notehistory.setId(note.getId());
         notehistory.setNoteUrl(noteUrl);
         notehistory.setIp(IpUtils.getIpAddr(request));
+        notehistory.setUserId(user.getId());
         QueryWrapper<Notehistory> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",note.getId());
         notehistory.setVersion(notehistoryService.count(queryWrapper)+1);
@@ -469,5 +474,30 @@ public class NoteController {
     }
 
     // endregion
-
+    @AuthCheck
+    @GetMapping("/getHistory")
+    public BaseResponse<Page<NoteHistoryVo>> getUpdateHistory(NoteHistoryQueryRequest noteHistoryQueryRequest, HttpServletRequest request){
+     String id = noteHistoryQueryRequest.getId();   //日记ID
+     //鉴权
+        //获得所属用户ID
+        Note oldNote = noteService.getById(id);
+        Long noteUserId= oldNote.getUserId();
+        //获得用户
+        User loginUser = userService.getLoginUser(request);
+        //只有自己和管理员可以获取
+        if (!noteUserId.equals(loginUser)&&!userService.isAdmin(request)){
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+        }
+        QueryWrapper<Notehistory> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        List<Notehistory> list = notehistoryService.list(queryWrapper);
+        Page<Notehistory> notehistoryPage=new Page<>();
+        notehistoryPage.setRecords(list);
+        Page<NoteHistoryVo> noteHistoryVoPage= (Page<NoteHistoryVo>) notehistoryPage.convert(dao->{
+            NoteHistoryVo vo=new NoteHistoryVo();
+            BeanUtils.copyProperties(dao,vo);
+            return vo;
+        });
+        return ResultUtils.success(noteHistoryVoPage);
+    }
 }

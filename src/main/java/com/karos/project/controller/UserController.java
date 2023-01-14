@@ -61,8 +61,25 @@ public class UserController {
     private RedisTemplate redisTemplate;
     // region 登录相关
 
+    @GetMapping("/get/userAccount")
+    public BaseResponse<String> getUserAccount(@RequestParam(value = "id",required = false) Long id,
+                                            HttpServletResponse httpServletResponse){
+        if (ObjectUtils.anyNull(id)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        HashOperations hashOperations = redisTemplate.opsForHash();
+        String userAccount=null;
+        hashOperations.get("UserAccountdb",id.toString());
+        if (userAccount==null) {
+            synchronized ("Lock".intern()){
+                userAccount = userService.getUserAccount(id);
+            }
+            if (ObjectUtils.isNotEmpty(id))hashOperations.put("UserAccountdb",id.toString(),userAccount);
+        }
+        return ResultUtils.success(userAccount);
+    }
     /**
-     * 获取用户昵稱
+     * 获取用户昵称
      * @param userAccount
      * @param httpServletResponse
      * @return

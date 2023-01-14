@@ -54,6 +54,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private static final String SALT = "karos";
 
     @Override
+    public String getUserAccount(Long id) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        if (ObjectUtils.isNotEmpty(id))queryWrapper.eq("id",id);
+        User user = userMapper.selectOne(queryWrapper);
+        return user.getUserName();
+    }
+
+    @Override
     public String getUserName(String userAccount, Long id) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(userAccount))queryWrapper.eq("userAccount",userAccount);

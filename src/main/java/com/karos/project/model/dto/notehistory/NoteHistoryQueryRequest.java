@@ -20,18 +20,5 @@ public class NoteHistoryQueryRequest extends PageRequest implements Serializable
      */
     private String id;
 
-    /**
-     * 所属用户ID
-     */
-    private Long userId;
-
-    /**
-     * 用户日记ID
-     */
-    private Long userNoteid;
-    /**
-     * 日记标题
-     */
-    private String noteTitle;
     private static final long serialVersionUID = 1L;
 }

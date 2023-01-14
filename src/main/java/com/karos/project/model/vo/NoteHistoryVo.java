@@ -1,4 +1,4 @@
-package com.karos.project.model.entity;
+package com.karos.project.model.vo;
 
 import com.baomidou.mybatisplus.annotation.*;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @TableName(value ="notehistory")
 @Data
-public class Notehistory implements Serializable {
+public class NoteHistoryVo implements Serializable {
     /**
      * 日记id
      */
@@ -42,11 +42,6 @@ public class Notehistory implements Serializable {
      */
     private Date updateTime;
 
-
-    /**
-     * 是否删除（0否，1是）
-     */
-    private Integer isDelete;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
