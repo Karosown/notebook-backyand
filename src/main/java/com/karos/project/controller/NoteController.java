@@ -341,6 +341,7 @@ public class NoteController {
             });
         return ResultUtils.success(voList);
     }
+
     @GetMapping("/list/hot")
         public BaseResponse<Page<NoteVo>> listNoteByHot(HttpServletRequest request){
         Page<Note> notePage= (Page<Note>) redisTemplate.opsForValue().get(RedisKeysConstant.HotNote);
