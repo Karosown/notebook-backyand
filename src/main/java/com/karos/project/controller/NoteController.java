@@ -41,7 +41,6 @@ import com.karos.project.service.NoteService;
 import com.karos.project.service.NotehistoryService;
 import com.karos.project.service.NotethumbrecordsService;
 import com.karos.project.service.UserService;
-import com.karos.project.tasks.NoteScheduledTasks;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;

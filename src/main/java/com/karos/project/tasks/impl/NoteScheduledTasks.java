@@ -8,7 +8,7 @@
  * @Blog: https://www.wzl1.top/
  */
 
-package com.karos.project.tasks;
+package com.karos.project.tasks.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
@@ -26,6 +26,7 @@ import com.karos.project.model.entity.Notethumbrecords;
 import com.karos.project.model.vo.NoteVo;
 import com.karos.project.service.NoteService;
 import com.karos.project.service.NotethumbrecordsService;
+import com.karos.project.tasks.ScheduledTasks;
 import io.lettuce.core.output.KeyValueStreamingChannel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.HashOperations;
@@ -49,7 +50,7 @@ import static com.karos.project.constant.RedisKeysConstant.ThumbsUserSet;
 
 @Component
 
-public class NoteScheduledTasks extends ScheduledTasks{
+public class NoteScheduledTasks extends ScheduledTasks {
     @Resource
     RedisTemplate redisTemplate;
     @Resource
@@ -70,7 +71,6 @@ public class NoteScheduledTasks extends ScheduledTasks{
      * 点赞信息持久化
      */
     @Scheduled(cron = "0 0 0/5 * * ? ")
-
     public void PersistenceThumbs(){
         //加锁
         lockUtil.DistributedLock(LockConstant.ThumbsLock_Pers,10L, TimeUnit.SECONDS);
