@@ -27,7 +27,25 @@ KaTool: <a href="http://www.github.com/Karosown/KaTool">http://www.github.com/Ka
 NoteBook-Backyand: <a href="http://www.github.com/KarosownNoteBook-Backyand">http://www.github.com/Karosown/NoteBook-Backyand</a>
 
 NoteBook-Frontyand: <a href="http://www.github.com/KarosownNoteBook-Frontyand">http://www.github.com/Karosown/NoteBook-Frontyand</a>
-
+### 食用步骤：
+#### KaTool安装：
+后端需现在本地安装KaTool:<br>
+KaTool: <a href="http://www.github.com/Karosown/KaTool">http://www.github.com/Karosown/KaTool</a>
+#### Nginx配置：
+这部分在KaTool中有了
+>Nginx反向代理后获取真实来源IP
+```Nginx.config-server
+proxy_set_header   X-Real-IP        $remote_addr;
+proxy_set_header   X-Real-Port      $remote_port;
+proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+```
+#### 前端资源伪静态配置：
+##### Nignx伪静态
+```Nignx伪静态
+location / {
+try_files $uri $uri/ /index.html;
+}
+```
 ### 目前实现功能：
 
 日记发布、日记收藏、日记修改、用户资料查看与修改等

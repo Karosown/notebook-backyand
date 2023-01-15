@@ -28,7 +28,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
-import com.karos.KaTool.CheckCode.GenerateCode;
+import com.karos.KaTool.CheckCode.GenerateCodeUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +60,7 @@ public class CheckCodeController {
         String key= DigestUtil.md5Hex(datestamp+ip);
         String code=null;
         try {
-           code = GenerateCode.outputVerifyImage(200, 100, httpServletResponse.getOutputStream(), 4);
+           code = GenerateCodeUtil.outputVerifyImage(200, 100, httpServletResponse.getOutputStream(), 4);
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR,"验证码生成失败");
         }
@@ -93,7 +93,7 @@ public class CheckCodeController {
         }
         hashOperations.delete("checkcode_img",key);
         hashOperations.delete("checkcode_sms",mail);
-        String code_sms = new GenerateCode(salt).touchTextCode(mail, 6);
+        String code_sms = new GenerateCodeUtil(salt).touchTextCode(mail, 6);
         hashOperations.put("checkcode_sms",mail,code_sms.toUpperCase(Locale.ROOT));
         emailUtils.setMessage(mail,"【掌印日记】信息验证服务","【掌印日记】您的验证码为"+code_sms);
         emailUtils.send();
