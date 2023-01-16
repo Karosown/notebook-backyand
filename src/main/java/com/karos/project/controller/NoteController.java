@@ -10,6 +10,7 @@
 
 package com.karos.project.controller;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -78,7 +79,7 @@ public class NoteController {
     @AuthCheck(mustRole = "admin")
     @GetMapping("/LockTest")
     public BaseResponse<String> test(@RequestParam("expTime") Long expTime){
-        lockUtil.DistributedLock(RedisKeysConstant.ThumbsHistoryHash.intern(),expTime, TimeUnit.SECONDS);
+        lockUtil.DistributedLock(RedisKeysConstant.ThumbsHistoryHash,expTime, TimeUnit.SECONDS);
         return ResultUtils.success("上锁成功，请在20s内进行测试操作");
     }
     @AuthCheck
@@ -122,7 +123,7 @@ public class NoteController {
             File tempFile = File.createTempFile("temp",".html");
             FileOutputStream fos= new FileOutputStream(tempFile);
             //装饰者模式
-            OutputStreamWriter osw=new OutputStreamWriter(fos,"utf-8");
+            OutputStreamWriter osw=new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             osw.write(noteText);
             osw.flush();
             osw.close();
@@ -228,7 +229,7 @@ public class NoteController {
             File tempFile = File.createTempFile("temp",".html");
             FileOutputStream fos= new FileOutputStream(tempFile);
             //装饰者模式
-            OutputStreamWriter osw=new OutputStreamWriter(fos,"utf-8");
+            OutputStreamWriter osw=new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             osw.write(noteText);
             osw.flush();
             osw.close();

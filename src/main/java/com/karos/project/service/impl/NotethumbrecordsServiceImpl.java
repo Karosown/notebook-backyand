@@ -54,7 +54,7 @@ public class NotethumbrecordsServiceImpl extends ServiceImpl<NotethumbrecordsMap
         HashOperations hashOperations = redisTemplate.opsForHash();
         SetOperations setOperations = redisTemplate.opsForSet();
         //分布式锁校验，如果在这个时候在进行点赞数量持久化，那就等待
-        lockUtil.DistributedAssert(RedisKeysConstant.ThumbsHistoryHash.intern());
+        lockUtil.DistributedAssert(RedisKeysConstant.ThumbsHistoryHash);
         String userAccount=userService.getLoginUser(request).getUserAccount();
         synchronized (userAccount.intern()) {
             List list = (List) hashOperations.get(RedisKeysConstant.ThumbsHistoryHash, String.valueOf(userId));

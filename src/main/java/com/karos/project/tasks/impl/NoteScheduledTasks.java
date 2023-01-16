@@ -84,7 +84,7 @@ public class NoteScheduledTasks extends ScheduledTasks {
         Long usersetsize = setOperations.size(ThumbsUserSet);
         //如果没有人点赞，那就释放锁，并且退出
         if (usersetsize<=0){
-            lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers.intern());
+            lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers);
             return;
         }
         Set members = setOperations.members(ThumbsUserSet);
@@ -143,6 +143,6 @@ public class NoteScheduledTasks extends ScheduledTasks {
             hashOperations.put(RedisKeysConstant.ThumbsNum,k.getId(),k.getThumbNum());
         }
         //释放锁
-        lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers.intern());
+        lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers);
     }
 }

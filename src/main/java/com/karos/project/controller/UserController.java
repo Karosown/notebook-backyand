@@ -71,7 +71,7 @@ public class UserController {
         String userAccount=null;
         hashOperations.get("UserAccountdb",id.toString());
         if (userAccount==null) {
-            synchronized ("Lock".intern()){
+            synchronized ("Lock"){
                 userAccount = userService.getUserAccount(id);
             }
             if (ObjectUtils.isNotEmpty(id))hashOperations.put("UserAccountdb",id.toString(),userAccount);
@@ -96,7 +96,7 @@ public class UserController {
         if (StringUtils.isNotBlank(userAccount))userName= (String) hashOperations.get("UserNamedb",userAccount);
         if (userName==null) hashOperations.get("UserNamedb",id.toString());
         if (userName==null) {
-            synchronized ("Lock".intern()){
+            synchronized ("Lock"){
                 userName = userService.getUserName(userAccount,id);
             }
             if (StringUtils.isNotBlank(userAccount))hashOperations.put("UserNamedb",userAccount,userName);
@@ -121,7 +121,7 @@ public class UserController {
         if (StringUtils.isNotBlank(userAccount))userAvatar= (String) hashOperations.get("UserAvatardb",userAccount);
         if (userAvatar==null) hashOperations.get("UserAvatardb",id.toString());
         if (userAvatar==null) {
-            synchronized ("Lock".intern()){
+            synchronized ("Lock"){
                 userAvatar = userService.getUserAvatar(userAccount,id);
             }
             if (StringUtils.isNotBlank(userAccount))hashOperations.put("UserAvatardb",userAccount,userAvatar);
@@ -294,7 +294,7 @@ public class UserController {
         if(StringUtils.isBlank(userUpdateRequest.getUserName())){
             user.setUserName(null);
         }
-        boolean result = userService.updateById(user)&&userService.removeLoginUser(user.getId(),null);;
+        boolean result = userService.updateById(user)&&userService.removeLoginUser(user.getId(),null);
         return ResultUtils.success(result);
     }
     @PostMapping("/update/resetpassword")
@@ -323,7 +323,7 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(userUpdatePasswordRequest, user);
         user.setUserPassword(userService.HexPassWord(user.getUserPassword()));
-        boolean result = userService.updateById(user)&&userService.removeLoginUser(user.getId(),request);;
+        boolean result = userService.updateById(user)&&userService.removeLoginUser(user.getId(),request);
         return ResultUtils.success(result);
     }
 

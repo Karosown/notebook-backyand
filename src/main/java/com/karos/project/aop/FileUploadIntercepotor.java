@@ -93,7 +93,6 @@ public class FileUploadIntercepotor {
                                 fileLimit
                         );
                     }
-//                    log.info("{}",ipFileDownloadNums==fileLimit.getIpFileDownloadNums());
                 }
         }
         // 生成请求唯一 id

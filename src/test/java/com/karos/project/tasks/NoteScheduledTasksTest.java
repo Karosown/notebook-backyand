@@ -57,7 +57,7 @@ public class NoteScheduledTasksTest {
         Long usersetsize = setOperations.size(ThumbsUserSet);
         //如果没有人点赞，那就释放锁，并且退出
         if (usersetsize<=0L){
-            lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers.intern());
+            lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers);
             return;
         }
         List<String> userlist =(List<String>)setOperations.pop(ThumbsUserSet,usersetsize);
@@ -100,5 +100,5 @@ public class NoteScheduledTasksTest {
         CompletableFuture.allOf(futrueList.toArray(new CompletableFuture[]{})).join();
 //                notethumbrecordsService.saveOrUpdateBatch(thumblist,10000);
         //释放锁
-        lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers.intern());    }
+        lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers);    }
 }
