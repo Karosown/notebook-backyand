@@ -71,7 +71,7 @@ public class UserController {
         String userAccount=null;
         hashOperations.get("UserAccountdb",id.toString());
         if (userAccount==null) {
-            synchronized ("Lock"){
+            synchronized ("Lock".intern()){
                 userAccount = userService.getUserAccount(id);
             }
             if (ObjectUtils.isNotEmpty(id))hashOperations.put("UserAccountdb",id.toString(),userAccount);

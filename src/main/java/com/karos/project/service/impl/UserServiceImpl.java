@@ -58,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         if (ObjectUtils.isNotEmpty(id))queryWrapper.eq("id",id);
         User user = userMapper.selectOne(queryWrapper);
-        return user.getUserName();
+        return user.getUserAccount();
     }
 
     @Override
