@@ -1,8 +1,9 @@
 package com.karos.project.service.impl;
 
 import cn.hutool.core.util.BooleanUtil;
+import cn.katool.Exception.KaToolException;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.karos.KaTool.lock.LockUtil;
+import cn.katool.lock.LockUtil;
 import com.karos.project.common.ErrorCode;
 import com.karos.project.constant.RedisKeysConstant;
 import com.karos.project.exception.BusinessException;
@@ -54,7 +55,11 @@ public class NotethumbrecordsServiceImpl extends ServiceImpl<NotethumbrecordsMap
         HashOperations hashOperations = redisTemplate.opsForHash();
         SetOperations setOperations = redisTemplate.opsForSet();
         //分布式锁校验，如果在这个时候在进行点赞数量持久化，那就等待
-        lockUtil.DistributedAssert(RedisKeysConstant.ThumbsHistoryHash);
+        try {
+            lockUtil.DistributedAssert(RedisKeysConstant.ThumbsHistoryHash);
+        } catch (KaToolException e) {
+            throw new RuntimeException(e);
+        }
         String userAccount=userService.getLoginUser(request).getUserAccount();
         synchronized (userAccount.intern()) {
             List list = (List) hashOperations.get(RedisKeysConstant.ThumbsHistoryHash, String.valueOf(userId));

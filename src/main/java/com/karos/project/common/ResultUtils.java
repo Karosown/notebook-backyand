@@ -1,6 +1,6 @@
 package com.karos.project.common;
 
-import com.karos.KaTool.other.MethodIntefaceUtil;
+import cn.katool.other.MethodIntefaceUtil;
 
 /**
  * 返回工具类

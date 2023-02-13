@@ -14,6 +14,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.katool.Exception.KaToolException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.karos.project.common.InitRedis;
@@ -73,7 +74,11 @@ public class NoteScheduledTasks extends ScheduledTasks {
     @Scheduled(cron = "0 0 0/5 * * ? ")
     public void PersistenceThumbs(){
         //加锁
-        lockUtil.DistributedLock(LockConstant.ThumbsLock_Pers,10L, TimeUnit.SECONDS);
+        try {
+            lockUtil.DistributedLock(LockConstant.ThumbsLock_Pers,10L, TimeUnit.SECONDS);
+        } catch (KaToolException e) {
+            throw new RuntimeException(e);
+        }
         long beginTime = DateUtil.currentSeconds();
         //持久化
         //list 用于获取点赞的用户
@@ -84,7 +89,11 @@ public class NoteScheduledTasks extends ScheduledTasks {
         Long usersetsize = setOperations.size(ThumbsUserSet);
         //如果没有人点赞，那就释放锁，并且退出
         if (usersetsize<=0){
-            lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers);
+            try {
+                lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers);
+            } catch (KaToolException e) {
+                throw new RuntimeException(e);
+            }
             return;
         }
         Set members = setOperations.members(ThumbsUserSet);
@@ -92,7 +101,11 @@ public class NoteScheduledTasks extends ScheduledTasks {
         for(Object it:members){
             userlist.add(it.toString());
             if (DateUtil.currentSeconds()-beginTime<5) {
-                lockUtil.delayDistributedLock(LockConstant.ThumbsLock_Pers,10L, TimeUnit.SECONDS);
+                try {
+                    lockUtil.delayDistributedLock(LockConstant.ThumbsLock_Pers,10L, TimeUnit.SECONDS);
+                } catch (KaToolException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         //清楚点过赞的用户
@@ -133,7 +146,11 @@ public class NoteScheduledTasks extends ScheduledTasks {
             });
             futrueList.add(future);
             if (DateUtil.currentSeconds()-beginTime<5) {
-                lockUtil.delayDistributedLock(LockConstant.ThumbsLock_Pers,10L, TimeUnit.SECONDS);
+                try {
+                    lockUtil.delayDistributedLock(LockConstant.ThumbsLock_Pers,10L, TimeUnit.SECONDS);
+                } catch (KaToolException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         CompletableFuture.allOf(futrueList.toArray(new CompletableFuture[]{})).join();
@@ -143,6 +160,10 @@ public class NoteScheduledTasks extends ScheduledTasks {
             hashOperations.put(RedisKeysConstant.ThumbsNum,k.getId(),k.getThumbNum());
         }
         //释放锁
-        lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers);
+        try {
+            lockUtil.DistributedUnLock(LockConstant.ThumbsLock_Pers);
+        } catch (KaToolException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

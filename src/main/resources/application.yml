@@ -1,7 +1,7 @@
 spring:
   # 使用配置文件   -- 改好下面的配置以后把该配置删掉即可，本用于多环境部署
   profiles:
-    active: prod
+    active: test
   application:
     name: notebook-backyand
   # DataSource Config

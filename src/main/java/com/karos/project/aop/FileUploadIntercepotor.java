@@ -10,7 +10,7 @@
 
 package com.karos.project.aop;
 
-import com.karos.KaTool.iputils.IpUtils;
+import cn.katool.iputils.IpUtils;
 import com.karos.project.common.ErrorCode;
 import com.karos.project.common.FileLimit;
 import com.karos.project.common.IPFileDownloadNum;

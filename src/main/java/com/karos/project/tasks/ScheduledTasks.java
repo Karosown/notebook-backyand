@@ -10,7 +10,7 @@
 
 package com.karos.project.tasks;
 
-import com.karos.KaTool.lock.LockUtil;
+import cn.katool.lock.LockUtil;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;

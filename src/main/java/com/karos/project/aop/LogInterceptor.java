@@ -1,6 +1,6 @@
 package com.karos.project.aop;
 
-import com.karos.KaTool.iputils.IpUtils;
+import cn.katool.iputils.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

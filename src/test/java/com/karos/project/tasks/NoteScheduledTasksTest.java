@@ -11,8 +11,9 @@
 package com.karos.project.tasks;
 
 import cn.hutool.core.lang.func.VoidFunc0;
-import com.karos.KaTool.lock.LockUtil;
-import com.karos.KaTool.other.MethodIntefaceUtil;
+import cn.katool.Exception.KaToolException;
+import cn.katool.lock.LockUtil;
+import cn.katool.other.MethodIntefaceUtil;
 import com.karos.project.constant.LockConstant;
 import com.karos.project.constant.RedisKeysConstant;
 import com.karos.project.model.entity.Note;
@@ -45,7 +46,7 @@ public class NoteScheduledTasksTest {
     private NotethumbrecordsServiceImpl notethumbrecordsService;
 
     @Test
-    void ThumbPersTest(){
+    void ThumbPersTest() throws KaToolException {
         //加锁
         lockUtil.DistributedLock(LockConstant.ThumbsLock_Pers,10L, TimeUnit.SECONDS);
         //持久化

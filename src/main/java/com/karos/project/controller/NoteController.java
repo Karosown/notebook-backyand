@@ -17,11 +17,12 @@ import java.util.Date;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import cn.katool.Exception.KaToolException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.karos.KaTool.iputils.IpUtils;
-import com.karos.KaTool.lock.LockUtil;
-import com.karos.KaTool.qiniu.impl.QiniuServiceImpl;
+import cn.katool.iputils.IpUtils;
+import cn.katool.lock.LockUtil;
+import cn.katool.qiniu.impl.QiniuServiceImpl;
 import com.karos.project.annotation.AuthCheck;
 import com.karos.project.common.*;
 import com.karos.project.constant.CommonConstant;
@@ -79,7 +80,11 @@ public class NoteController {
     @AuthCheck(mustRole = "admin")
     @GetMapping("/LockTest")
     public BaseResponse<String> test(@RequestParam("expTime") Long expTime){
-        lockUtil.DistributedLock(RedisKeysConstant.ThumbsHistoryHash,expTime, TimeUnit.SECONDS);
+        try {
+            lockUtil.DistributedLock(RedisKeysConstant.ThumbsHistoryHash,expTime, TimeUnit.SECONDS);
+        } catch (KaToolException e) {
+            throw new RuntimeException(e);
+        }
         return ResultUtils.success("上锁成功，请在20s内进行测试操作");
     }
     @AuthCheck

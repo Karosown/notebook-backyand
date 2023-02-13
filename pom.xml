@@ -20,9 +20,9 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.Karos</groupId>
+            <groupId>cn.katool</groupId>
             <artifactId>KaTool</artifactId>
-            <version>1.5.5</version>
+            <version>1.6.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
